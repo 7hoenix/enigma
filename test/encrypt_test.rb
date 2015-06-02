@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/encrypt'
+require_relative '../lib/generate_key'
 
 # Make a char map array with all of our characters (a-z, 0-9, " ", ., ,)
 # Call our key generator class to generate a key for us.
@@ -18,8 +19,13 @@ require_relative '../lib/encrypt'
 
 class EncryptTest < Minitest::Test
 
+  def test_it_has_a_character_map
+    encrypt = Encrypt.new
+
+    assert encrypt.character_map
+  end
+
   def test_it_has_a_character_map_array_in_the_proper_order_with_39_characters
-    skip
     encrypt = Encrypt.new
 
     assert_equal 39, encrypt.character_map.size
@@ -31,31 +37,9 @@ class EncryptTest < Minitest::Test
   end
 
   def test_it_has_an_empty_encrypted_array_by_default
-    skip
     encrypt = Encrypt.new
 
     assert encrypt.message.empty?
-  end
-
-  def test_it_gets_a_key_generated_from_the_generate_class
-    skip
-    encrypt = Encrypt.new
-    generated_key = Generate.new(5)
-
-    encrypt.key = generated_key
-
-    assert_equal 12345, encrypt.key
-  end
-
-  def test_it_gets_an_offset_key_from_the_offset_class
-    skip
-    encrypt = Encrypt.new
-    calculated_offset = CalculateOffset.new
-
-    encrypt.offset = calculated_offset
-
-    # For June 2nd 2015
-    assert_equal 8225, encrypt.offset
   end
 
   def test_it_takes_in_a_file_as_an_input
@@ -92,13 +76,13 @@ class EncryptTest < Minitest::Test
     encrypt.datum = unencrypted.read
     encrypt.splitted = encrypt.datum
 
-    
+
   end
 
   def test_it_returns_the_generated_key_to_the_terminal_so_we_can_use_it_decrypt
     skip
     encrypt = Encrypt.new
-    generated_key = Generate.new(5)
+    generated_key = GenerateKey.new
 
     encrypt.key = generated_key
 
