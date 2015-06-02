@@ -88,5 +88,4 @@ class EncryptTest < Minitest::Test
 
     assert_equal "12345", encrypt.done
   end
-
 end

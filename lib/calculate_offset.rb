@@ -8,5 +8,4 @@ class CalculateOffset
     squared_date = formatted_date.to_i ** 2
     squared_date
   end
-
 end
