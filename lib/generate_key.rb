@@ -1,11 +1,11 @@
 class GenerateKey
-  attr_reader :key
 
-  def initialize(key=12345)
-    @key = key
-  end
-
-  def generate
-    @key = rand.to_s[2..6].to_i
+  def self.generate
+    temp_key = rand.to_s[2..6].to_i
+    if temp_key.to_s.size == 5
+      @key = temp_key
+    else
+      self.generate
+    end
   end
 end

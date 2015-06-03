@@ -17,65 +17,59 @@ require_relative '../lib/generate_key'
 
 # return the key to the output terminal so that we can save it for decrypting.
 
-class EncryptTest < Minitest::Test
-
-  def test_it_has_a_character_map
-    encrypt = Encrypt.new
-
-    assert encrypt.character_map
-  end
-
-  def test_it_has_a_character_map_array_in_the_proper_order_with_39_characters
-    encrypt = Encrypt.new
-
-    assert_equal 39, encrypt.character_map.size
-
-    expected = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
-                "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", " ", ".", ","]
-
-    assert_equal expected, encrypt.character_map
-  end
-
-  def test_it_has_an_empty_encrypted_array_by_default
-    encrypt = Encrypt.new
-
-    assert encrypt.message.empty?
-  end
-
-  def test_it_takes_in_a_file_as_an_input
-    skip
-    encrypt = Encrypt.new
-    unencrypted = File.open("encrypted.txt")
-
-    encrypt.datum = unencrypted.read
-
-    assert_equal "hello ..end..", encrypt.datum
-  end
+class EncryptTest < MiniTest::Test
 
   def test_it_splits_the_file_into_an_array_of_characters
-    skip
     encrypt = Encrypt.new
-    unencrypted = File.open("encrypted.txt")
+    reader = File.open("../lib/test.txt")
 
-    encrypt.datum = unencrypted.read
-    encrypt.splitted = encrypt.datum
+    message = reader.readline
 
-    assert_equal ["h", "e", "l", "l", "o", " ", ".", ".", "e", "n", "d", ".", "."], encrypt.splitted
+    assert_equal ["h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", "\n"], encrypt.parser(message)
   end
+
+  def test_it_has_a_key
+    mock_key = MiniTest::Mock.new
+    mock_key.expect :key, 12345
+
+    Encrypt.stub :new, mock_key do
+      encrypt = Encrypt.new
+      assert_equal 12345, encrypt.key
+    end
+
+    refute_equal 12345, Encrypt.new.key
+  end
+
+  def test_it_has_an_offset_value
+
+    # For June 2nd 2015
+    assert_equal 8225, CalculateOffset.calculate
+  end
+
+  def test_it_has_a_message_value
+    skip
+    encryptor = Encryptor.new
+  end
+
+
 
   def test_it_sends_the_key_the_offset_and_the_4_characters_to_calculate_engine
     skip
+    encryptor = Encrypt.new
+    reader = File.open("../lib/test.txt")
+
+    message = reader.readline
+
+
   end
 
   def test_it_sends_the_characters_from_the_calculate_engine_to_the_encrypted_file
     skip
     encrypt = Encrypt.new
-    unencrypted = File.open("encrypted.txt")
-    e = EncryptEngine.new
+    reader = File.open("../lib/test.txt")
+    engine = EncryptEngine.new
 
-    encrypt.datum = unencrypted.read
-    encrypt.splitted = encrypt.datum
-
+    message = reader.readline
 
   end
 

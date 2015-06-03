@@ -5,11 +5,11 @@ require '../lib/generate_key'
 class GenerateKeyTest < Minitest::Test
 
   def test_it_gets_a_key_generated_from_the_generate_class
-    generator = GenerateKey.new
-
-    generated_key = generator.generate
-
-    assert_equal 12345, generated_key
+    keys = []
+    1000.times do
+      keys << GenerateKey.generate
+    end
+    expected = keys.size - keys.uniq.size <= 10
+    assert expected, "The difference between the two key sizes is: #{keys.size - keys.uniq.size}"
   end
-
 end
