@@ -29,17 +29,30 @@ class EngineTest < MiniTest::Test
     assert_equal [20, 25, 36, 50], engine.big_key(key, offset)
   end
 
+  def test_it_uses_combined_keys_and_split_message_to_encrypt
+    engine = Engine.new
+    primary_keys = [20, 25, 36, 50]
+    message_characters = ["h", "e", "l", "l"]
+
+    assert_equal "13iw", engine.slicer(primary_keys, message_characters)
+  end
+
   def test_it_rotates_short_string_in_the_message_by_the_associated_key
     engine = Engine.new
     key = 12345
     offset = 8225
-    message = "hell"
+    message = "hell\n"
 
     assert_equal "13iw", engine.calculate(message, key, offset)
   end
 
-  def test_
-    
+  def test_it_rotates_long_strings_in_the_message_by_the_associated_key
+    engine = Engine.new
+    key = 12345
+    offset = 8225
+    message = "hello world\n"
+
+    assert_equal "13iw8wtz. a", engine.calculate(message, key, offset)
   end
 
 end

@@ -11,14 +11,19 @@ class Engine
 
   def calculate(message, key, offset)
     primary_keys = big_key(key, offset)
-    encrypted_message = []
     message_characters = message.split("")
+    message_characters.pop
+    slicer(primary_keys, message_characters)
+  end
+
+  def slicer(primary_keys, message_characters)
+    encrypted_message = []
     message_characters.each_slice(4) do |slice|
       slice.each_with_index do |char, index|
         encrypted_message << @character_map[(primary_keys[index]+@character_map.index(char)) % 39]
       end
     end
-      encrypted_message.join
+    encrypted_message.join
   end
 
   def big_key(key, offset)

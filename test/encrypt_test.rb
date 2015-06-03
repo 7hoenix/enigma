@@ -1,6 +1,8 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/encrypt'
+require_relative '../lib/engine'
+require_relative '../lib/calculate_offset'
 require_relative '../lib/generate_key'
 
 # Make a char map array with all of our characters (a-z, 0-9, " ", ., ,)
@@ -20,8 +22,9 @@ require_relative '../lib/generate_key'
 class EncryptTest < MiniTest::Test
 
   def test_it_splits_the_file_into_an_array_of_characters
+    skip
     encrypt = Encrypt.new
-    reader = File.open("../lib/test.txt")
+    reader = File.open("../lib/test.txt", "r")
 
     message = reader.readline
 
@@ -42,7 +45,7 @@ class EncryptTest < MiniTest::Test
 
   def test_it_has_an_offset_value
 
-    # For June 2nd 2015
+    # For June 3rd 2015
     assert_equal 8225, CalculateOffset.calculate
   end
 
@@ -51,26 +54,24 @@ class EncryptTest < MiniTest::Test
     encryptor = Encryptor.new
   end
 
-
-
   def test_it_sends_the_key_the_offset_and_the_4_characters_to_calculate_engine
-    skip
     encryptor = Encrypt.new
-    reader = File.open("../lib/test.txt")
+    reader = File.open("../lib/test.txt", "r")
 
     message = reader.readline
 
-
+    assert_equal "13iw8wtz. a", encryptor.get_encrypted_message(message)
   end
 
   def test_it_sends_the_characters_from_the_calculate_engine_to_the_encrypted_file
-    skip
-    encrypt = Encrypt.new
-    reader = File.open("../lib/test.txt")
-    engine = EncryptEngine.new
+    writer = File.open("../lib/encrypted_test.txt", "w")
+    encrypted_message = "gobbly gook"
 
-    message = reader.readline
+    writer.write(encrypted_message)
+    writer.close
+    reader = File.open("../lib/encrypted_test.txt", "r")
 
+    assert_equal "gobbly gook", reader.readline
   end
 
   def test_it_returns_the_generated_key_to_the_terminal_so_we_can_use_it_decrypt
