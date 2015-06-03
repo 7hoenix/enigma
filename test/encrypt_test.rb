@@ -21,16 +21,6 @@ require_relative '../lib/generate_key'
 
 class EncryptTest < MiniTest::Test
 
-  def test_it_splits_the_file_into_an_array_of_characters
-    skip
-    encrypt = Encrypt.new
-    reader = File.open("../lib/test.txt", "r")
-
-    message = reader.readline
-
-    assert_equal ["h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", "\n"], encrypt.parser(message)
-  end
-
   def test_it_has_a_key
     mock_key = MiniTest::Mock.new
     mock_key.expect :key, 12345
@@ -49,12 +39,8 @@ class EncryptTest < MiniTest::Test
     assert_equal 8225, CalculateOffset.calculate
   end
 
-  def test_it_has_a_message_value
-    skip
-    encryptor = Encryptor.new
-  end
-
   def test_it_sends_the_key_the_offset_and_the_4_characters_to_calculate_engine
+    skip
     encryptor = Encrypt.new
     reader = File.open("../lib/test.txt", "r")
 
@@ -65,22 +51,12 @@ class EncryptTest < MiniTest::Test
 
   def test_it_sends_the_characters_from_the_calculate_engine_to_the_encrypted_file
     writer = File.open("../lib/encrypted_test.txt", "w")
-    encrypted_message = "gobbly gook"
 
-    writer.write(encrypted_message)
+    writer.write("gobbly gook")
     writer.close
     reader = File.open("../lib/encrypted_test.txt", "r")
 
     assert_equal "gobbly gook", reader.readline
   end
 
-  def test_it_returns_the_generated_key_to_the_terminal_so_we_can_use_it_decrypt
-    skip
-    encrypt = Encrypt.new
-    generated_key = GenerateKey.new
-
-    encrypt.key = generated_key
-
-    assert_equal "12345", encrypt.done
-  end
 end
