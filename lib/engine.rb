@@ -37,9 +37,4 @@ class Engine
     encrypted_message.join
   end
 
-  def crack(encrypted_message, offset)
-    
-    cracked_message, cracked_key = # Insert super smart code here
-  end
-
 end

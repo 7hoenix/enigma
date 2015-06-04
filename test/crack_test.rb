@@ -39,7 +39,8 @@ class CrackTest < MiniTest::Test
     reader = File.open(encrypted_file, "r")
     encrypted_message = reader.readline
 
-    cracked_message, cracked_key = engine.crack(encrypted_message, offset)
+    crack_engine = CrackEngine.new
+    cracked_message, cracked_key = crack_engine.crack(encrypted_message, offset)
     assert_equal "hello world ..end..", cracked_message
 
     assert_equal 12345, cracked_key
