@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/encrypt'
@@ -34,29 +37,51 @@ class EncryptTest < MiniTest::Test
   end
 
   def test_it_has_an_offset_value
-    date = nil
-    # For June 3rd 2015
+    date = 30615
+    # For June 4th 2015
     assert_equal 8225, CalculateOffset.calculate(date)
-  end
-
-  def test_it_sends_the_key_the_offset_and_the_4_characters_to_calculate_engine
-    skip
-    encryptor = Encrypt.new
-    reader = File.open("../lib/test.txt", "r")
-
-    message = reader.readline
-
-    assert_equal "13iw8wtz. a", encryptor.get_encrypted_message(message)
   end
 
   def test_it_sends_the_characters_from_the_calculate_engine_to_the_encrypted_file
     writer = File.open("../lib/encrypted_test.txt", "w")
 
-    writer.write("gobbly gook")
+    writer.write("hello world ..end..")
     writer.close
     reader = File.open("../lib/encrypted_test.txt", "r")
 
-    assert_equal "gobbly gook", reader.readline
+    assert_equal "hello world ..end..", reader.readline
+  end
+
+  def test_it_works
+    encrypt = Encrypt.new
+    original_file = "../lib/message_test.txt"
+    encrypted_file = "../lib/encrypted_test.txt"
+    key = 12345
+    offset = 8225
+    decrypting = false
+
+    assert encrypt.key
+    assert encrypt.offset
+    #assert encrypt.decrypting, "Should be false"
+
+    reader = File.open(original_file, "r")
+    original_message = reader.readline
+    reader.close
+
+    assert_equal "hello world ..end..\n", original_message
+
+    engine = Engine.new
+    encrypted_message = engine.calculate(original_message, key, offset, decrypting)
+    assert_equal "13iw8wtz. aisxbyxx8", encrypted_message
+
+    writer = File.open(encrypted_file, "w")
+    writer.write(encrypted_message)
+    writer.close
+
+    reader = File.open(encrypted_file, "r")
+    encrypted_message_check = reader.readline
+    reader.close
+    assert_equal "13iw8wtz. aisxbyxx8", encrypted_message_check
   end
 
 end

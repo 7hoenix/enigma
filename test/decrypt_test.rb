@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/decrypt'
@@ -18,40 +21,43 @@ class DecryptTest < MiniTest::Test
     assert decrypt.offset, "We got an offset!"
   end
 
-  def test_it_can_read_an_encrypted_document
-    reader = File.open("../lib/encrypted_test.txt", "r")
-
-    assert_equal "gobbly gook", reader.readline
-  end
-
   def test_it_can_write_to_a_document
     writer = File.open("../lib/decrypted_test.txt", "w")
 
-    writer.write("crystal clear\n")
+    writer.write("hello world ..end..\n")
 
     writer.close
 
     reader = File.open("../lib/decrypted_test.txt", "r")
 
-    assert_equal "crystal clear\n", reader.readline
+    assert_equal "hello world ..end..\n", reader.readline
   end
 
-  def test_it_gets_a_deciphered_message_back_when_it_sends_key_offset_and_message_to_engine
-    skip
+  def test_it_works
     decrypt = Decrypt.new
-    reader = File.open("../lib/decrypted_test.txt", "r")
-    engine = Engine.new
+    encrypted_file = "../lib/encrypted_test.txt"
+    decrypted_file = "../lib/decrypted_test.txt"
     key = 12345
     offset = 8225
     decrypting = true
-    message = reader.readline
 
-    assert_equal "crystal clear\n", message
+    assert decrypt.key
+    assert decrypt.offset
+    assert decrypt.decrypting
 
+    reader = File.open(encrypted_file, "r")
+    encrypted_message = reader.readline
+    reader.close
 
+    assert_equal "13iw8wtz. aisxbyxx8", encrypted_message
 
-    assert_equal "blah blah", engine.calculate(message, key, offset, decrypting)
+    engine = Engine.new
+    decrypted_message = engine.calculate(encrypted_message, key, offset, decrypting)
+    assert_equal "hello world ..end..", decrypted_message
 
+    writer = File.open(decrypted_file, "w")
+    writer.write(decrypted_message)
+    writer.close
   end
   
 end
