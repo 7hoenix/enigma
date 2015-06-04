@@ -1,4 +1,5 @@
 require_relative 'engine'
+require 'pry'
 
 class CrackEngine
   attr_accessor :cracked
@@ -10,18 +11,21 @@ class CrackEngine
   end
 
   def crack(encrypted_message, offset)
-    #control = calculate_control(encrypted_message)
     cracker(encrypted_message, offset)
   end
 
   def cracker(encrypted_message, offset)
-    cracked_key = 10000
+    cracked_key = "00000"
     until cracked
       standard_engine = Engine.new
       decrypted_message = standard_engine.calculate(encrypted_message, cracked_key, offset, decrypting)
-      cracked = true if decrypted_message.split[-7,-1] == "..end.."
+      decrypted_message_array = decrypted_message.split("")
+      piece = decrypted_message_array[-7..-1]
+      cracked = true if piece.join == "..end.."
+      cracked_key = cracked_key.to_i
       cracked_key += 1
+      cracked_key = sprintf("%05d", cracked_key)
     end
-    cracked_key
+    so_cracked = [decrypted_message, cracked_key]
   end
 end
