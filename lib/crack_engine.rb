@@ -21,7 +21,7 @@ class CrackEngine
       decrypted_message = standard_engine.calculate(encrypted_message, cracked_key, offset, decrypting)
       decrypted_message_array = decrypted_message.split("")
       piece = decrypted_message_array[-7..-1]
-      cracked = true if piece.join == "..end.."
+      @cracked = true if piece.join == "..end.."
       cracked_key = cracked_key.to_i
       cracked_key += 1
       cracked_key = sprintf("%05d", cracked_key)

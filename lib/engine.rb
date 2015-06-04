@@ -1,5 +1,9 @@
 require 'pry'
 
+class CharacterMapEnglish
+
+end
+
 class Engine
   attr_reader :character_map
 
@@ -18,7 +22,7 @@ class Engine
   end
 
   def big_key(key, offset)
-    keys = key.to_s.split("")
+    keys = key.to_s.chars
     offsets = offset.to_s.split("")
     a = (keys[0] + keys[1]).to_i + offsets[0].to_i
     b = (keys[1] + keys[2]).to_i + offsets[1].to_i

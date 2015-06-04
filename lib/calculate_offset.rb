@@ -1,6 +1,6 @@
 class CalculateOffset
 
-  def self.calculate(formatted_date)
+  def self.calculate(formatted_date = nil)
     formatted_date ||= self.formatted_date
     squared_date = formatted_date.to_i ** 2
     squared_date.to_s.split("").last(4).join.to_i
