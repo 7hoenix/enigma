@@ -13,8 +13,7 @@ class Engine
     if decrypting
       primary_keys = primary_keys.map { |num| -num }
     end
-    message_characters = message.split("")
-    message_characters.pop
+    message_characters = message.strip.split("")
     slicer(primary_keys, message_characters)
   end
 
@@ -36,6 +35,11 @@ class Engine
       end
     end
     encrypted_message.join
+  end
+
+  def crack(encrypted_message, offset)
+    
+    cracked_message, cracked_key = # Insert super smart code here
   end
 
 end

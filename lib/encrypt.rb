@@ -9,7 +9,7 @@ class Encrypt
     @file_to_read = file_to_read
     @file_to_write = file_to_write
     @key = GenerateKey.generate
-    @offset = CalculateOffset.calculate
+    @offset = CalculateOffset.calculate(nil)
     @decrypting = false
   end
 
