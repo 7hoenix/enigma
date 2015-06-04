@@ -7,7 +7,7 @@ class EngineTest < MiniTest::Test
   def test_it_has_a_character_map
     engine = Engine.new
 
-    assert engine.character_map
+    assert engine.character_map, "You f'ed up the character_map."
   end
 
   def test_it_has_a_character_map_array_in_the_proper_order_with_39_characters
@@ -42,8 +42,9 @@ class EngineTest < MiniTest::Test
     key = 12345
     offset = 8225
     message = "hell\n"
+    decrypting = false
 
-    assert_equal "13iw", engine.calculate(message, key, offset)
+    assert_equal "13iw", engine.calculate(message, key, offset, decrypting)
   end
 
   def test_it_rotates_long_strings_in_the_message_by_the_associated_key
@@ -51,8 +52,29 @@ class EngineTest < MiniTest::Test
     key = 12345
     offset = 8225
     message = "hello world\n"
+    decrypting = false
 
-    assert_equal "13iw8wtz. a", engine.calculate(message, key, offset)
+    assert_equal "13iw8wtz. a", engine.calculate(message, key, offset, decrypting)
+  end
+
+  def test_it_rotates_short_string_in_the_message_backwards_by_associated_key
+    engine = Engine.new
+    key = 12345
+    offset = 8225
+    message = "13iw\n"
+    decrypting = true
+
+    assert_equal "hell", engine.calculate(message, key, offset, decrypting)
+  end
+
+  def test_it_rotates_long_strings_in_the_message_backwards_by_associated_key
+    engine = Engine.new
+    key = 12345
+    offset = 8225
+    message = "13iw8wtz. a\n"
+    decrypting = true
+
+    assert_equal "hello world", engine.calculate(message, key, offset, decrypting)
   end
 
 end

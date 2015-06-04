@@ -34,9 +34,9 @@ class EncryptTest < MiniTest::Test
   end
 
   def test_it_has_an_offset_value
-
+    date = nil
     # For June 3rd 2015
-    assert_equal 8225, CalculateOffset.calculate
+    assert_equal 8225, CalculateOffset.calculate(date)
   end
 
   def test_it_sends_the_key_the_offset_and_the_4_characters_to_calculate_engine

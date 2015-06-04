@@ -27,22 +27,31 @@ class DecryptTest < MiniTest::Test
   def test_it_can_write_to_a_document
     writer = File.open("../lib/decrypted_test.txt", "w")
 
-    writer.write("crystal clear message")
+    writer.write("crystal clear\n")
 
     writer.close
 
     reader = File.open("../lib/decrypted_test.txt", "r")
 
-    assert_equal "crystal clear message", reader.readline
+    assert_equal "crystal clear\n", reader.readline
   end
 
   def test_it_gets_a_deciphered_message_back_when_it_sends_key_offset_and_message_to_engine
+    skip
     decrypt = Decrypt.new
     reader = File.open("../lib/decrypted_test.txt", "r")
-
+    engine = Engine.new
+    key = 12345
+    offset = 8225
+    decrypting = true
     message = reader.readline
 
-    assert_equal "crystal clear message", decrypt.get_deciphered_message(message)
+    assert_equal "crystal clear\n", message
+
+
+
+    assert_equal "blah blah", engine.calculate(message, key, offset, decrypting)
+
   end
   
 end
