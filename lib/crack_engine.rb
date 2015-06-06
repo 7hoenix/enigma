@@ -17,14 +17,14 @@ class CrackEngine
   def cracker(encrypted_message, offset)
     cracked_key = "00000"
     until cracked
+      cracked_key = cracked_key.to_i
+      cracked_key += 1
+      cracked_key = sprintf("%05d", cracked_key)
       standard_engine = Engine.new
       decrypted_message = standard_engine.calculate(encrypted_message, cracked_key, offset, decrypting)
       decrypted_message_array = decrypted_message.split("")
       piece = decrypted_message_array[-7..-1]
       @cracked = true if piece.join == "..end.."
-      cracked_key = cracked_key.to_i
-      cracked_key += 1
-      cracked_key = sprintf("%05d", cracked_key)
     end
     so_cracked = [decrypted_message, cracked_key]
   end
