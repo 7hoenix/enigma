@@ -1,4 +1,4 @@
-require_relative 'engine'
+require './lib/engine'
 
 class CrackEngine
   attr_accessor :cracked

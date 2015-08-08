@@ -1,8 +1,11 @@
+require "./lib/character_map"
+
 class Engine
   attr_reader :character_map
 
   def initialize
-    @character_map = ("a".."z").to_a + ("0".."9").to_a + [" ", ".", ","]
+    @character_map = CharacterMap.new.map
+    #@character_map = ("a".."z").to_a + ("0".."9").to_a + [" ", ".", ","]
   end
 
   def calculate(message, key, offset, decrypting)

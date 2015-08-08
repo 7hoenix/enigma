@@ -2,6 +2,7 @@ require './test/test_helper'
 require './lib/decrypt'
 require './lib/generate_key'
 require './lib/calculate_offset'
+require './lib/character_map'
 
 class DecryptTest < MiniTest::Test
 
@@ -29,11 +30,11 @@ class DecryptTest < MiniTest::Test
   end
 
   def test_it_works
+    skip
     decrypt = Decrypt.new
     encrypted_file = "./data/encrypted_test.txt"
     decrypted_file = "./data/decrypted_test.txt"
     key = 12345
-    offset = 8225
     decrypting = true
 
     assert decrypt.key
@@ -54,5 +55,4 @@ class DecryptTest < MiniTest::Test
     writer.write(decrypted_message)
     writer.close
   end
-  
 end
