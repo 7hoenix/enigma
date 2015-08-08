@@ -1,6 +1,6 @@
-require_relative '../lib/generate_key'
-require_relative '../lib/calculate_offset'
-require_relative '../lib/engine'
+require './lib/generate_key'
+require './lib/calculate_offset'
+require './lib/engine'
 
 class Encrypt
   attr_reader :key, :offset, :file_to_read, :file_to_write, :decrypting

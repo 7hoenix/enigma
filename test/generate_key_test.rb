@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require '../lib/generate_key'
+require './lib/generate_key'
 
 class GenerateKeyTest < Minitest::Test
 

@@ -1,14 +1,7 @@
-require 'simplecov'
-SimpleCov.start
-
-require 'minitest/autorun'
-require 'minitest/pride'
-require_relative '../lib/crack'
-require_relative '../lib/calculate_offset'
-require_relative '../lib/engine'
-
-# ruby./ lib/crack.rb encrypted.txt cracked.txt 030415
-# takes in a file and a file to output it to and a date
+require './test/test_helper'
+require'./lib/crack'
+require'./lib/calculate_offset'
+require'./lib/engine'
 
 class CrackTest < MiniTest::Test
   def test_it_has_an_offset
@@ -19,7 +12,7 @@ class CrackTest < MiniTest::Test
   end
 
   def test_it_can_read_from_a_document
-    reader = File.open("../lib/cracker_test.txt", "r")
+    reader = File.open("./data/cracker_test.txt", "r")
 
     encrypted_message = reader.readline
     reader.close
@@ -30,8 +23,8 @@ class CrackTest < MiniTest::Test
   def test_it_works
     skip
     cracker = Crack.new
-    encrypted_file = "../lib/cracker_test.txt"
-    cracked_file = "../lib/cracked_test.txt"
+    encrypted_file = "./data/cracker_test.txt"
+    cracked_file = "./data/cracked_test.txt"
     date = 30615
     offset = CalculateOffset.calculate(date)
 

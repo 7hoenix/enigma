@@ -1,12 +1,7 @@
-require 'simplecov'
-SimpleCov.start
-
-require 'minitest/autorun'
-require 'minitest/pride'
-require_relative '../lib/decrypt'
-require_relative '../lib/generate_key'
-require_relative '../lib/calculate_offset'
-require 'pry'
+require './test/test_helper'
+require './lib/decrypt'
+require './lib/generate_key'
+require './lib/calculate_offset'
 
 class DecryptTest < MiniTest::Test
 
@@ -22,21 +17,21 @@ class DecryptTest < MiniTest::Test
   end
 
   def test_it_can_write_to_a_document
-    writer = File.open("../lib/decrypted_test.txt", "w")
+    writer = File.open("./data/decrypted_test.txt", "w")
 
     writer.write("hello world ..end..\n")
 
     writer.close
 
-    reader = File.open("../lib/decrypted_test.txt", "r")
+    reader = File.open("./data/decrypted_test.txt", "r")
 
     assert_equal "hello world ..end..\n", reader.readline
   end
 
   def test_it_works
     decrypt = Decrypt.new
-    encrypted_file = "../lib/encrypted_test.txt"
-    decrypted_file = "../lib/decrypted_test.txt"
+    encrypted_file = "./data/encrypted_test.txt"
+    decrypted_file = "./data/decrypted_test.txt"
     key = 12345
     offset = 8225
     decrypting = true
