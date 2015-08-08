@@ -17,23 +17,11 @@ class DecryptTest < MiniTest::Test
     assert decrypt.offset, "We got an offset!"
   end
 
-  def test_it_can_write_to_a_document
-    writer = File.open("./data/decrypted_test.txt", "w")
-
-    writer.write("hello world ..end..\n")
-
-    writer.close
-
-    reader = File.open("./data/decrypted_test.txt", "r")
-
-    assert_equal "hello world ..end..\n", reader.readline
-  end
-
   def test_it_works
     skip
     decrypt = Decrypt.new
-    encrypted_file = "./data/encrypted_test.txt"
-    decrypted_file = "./data/decrypted_test.txt"
+    encrypted_file = "./data/decrypt_encrypted_test.txt"
+    decrypted_file = "./data/decrypt_decrypted_test.txt"
     key = 12345
     decrypting = true
 
@@ -42,13 +30,15 @@ class DecryptTest < MiniTest::Test
     assert decrypt.decrypting
 
     reader = File.open(encrypted_file, "r")
-    encrypted_message = reader.readline
+    encrypted_message = reader.readline.chomp
     reader.close
 
     assert_equal "13iw8wtz. aisxbyxx8", encrypted_message
 
+
     engine = Engine.new
-    decrypted_message = engine.calculate(encrypted_message, key, offset, decrypting)
+    decrypted_message = engine.calculate(encrypted_message, key, decrypt.offset, decrypting)
+    binding.pry
     assert_equal "hello world ..end..", decrypted_message
 
     writer = File.open(decrypted_file, "w")

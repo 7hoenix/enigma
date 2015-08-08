@@ -5,11 +5,10 @@ class Engine
 
   def initialize
     @character_map = CharacterMap.new.map
-    #@character_map = ("a".."z").to_a + ("0".."9").to_a + [" ", ".", ","]
   end
 
-  def calculate(message, key, offset, decrypting)
-    primary_keys = big_key(key, offset)
+  def calculate(message, key, date_offset, decrypting)
+    primary_keys = total_offset(key, date_offset)
     if decrypting
       primary_keys = primary_keys.map { |num| -num }
     end
@@ -17,13 +16,13 @@ class Engine
     slicer(primary_keys, message_characters)
   end
 
-  def big_key(key, offset)
-    keys = key.to_s.chars
-    offsets = offset.to_s.split("")
-    a = (keys[0] + keys[1]).to_i + offsets[0].to_i
-    b = (keys[1] + keys[2]).to_i + offsets[1].to_i
-    c = (keys[2] + keys[3]).to_i + offsets[2].to_i
-    d = (keys[3] + keys[4]).to_i + offsets[3].to_i
+  def total_offset(key, date_offset)
+    key_offsets = key.to_s.chars
+    date_offsets = date_offset.to_s.split("")
+    a = (key_offsets[0..1]).join.to_i + date_offsets[0].to_i
+    b = (key_offsets[1..2]).join.to_i + date_offsets[1].to_i
+    c = (key_offsets[2..3]).join.to_i + date_offsets[2].to_i
+    d = (key_offsets[3..4]).join.to_i + date_offsets[3].to_i
     [a, b, c, d]
   end
 

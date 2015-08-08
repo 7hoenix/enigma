@@ -6,11 +6,11 @@ class Encrypt
   attr_reader :key, :offset, :file_to_read, :file_to_write, :decrypting
 
   def initialize( file_to_read = nil, file_to_write = nil )
-    @file_to_read = file_to_read
-    @file_to_write = file_to_write
-    @key = GenerateKey.generate
-    @offset = CalculateOffset.calculate(nil)
-    @decrypting = false
+    @file_to_read   = file_to_read
+    @file_to_write  = file_to_write
+    @key            = GenerateKey.generate
+    @offset         = CalculateOffset.calculate(nil)
+    @decrypting     = false
   end
 
   def get_message
