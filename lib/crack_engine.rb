@@ -1,5 +1,4 @@
-require_relative 'engine'
-require 'pry'
+require './lib/engine'
 
 class CrackEngine
   attr_accessor :cracked
@@ -26,6 +25,6 @@ class CrackEngine
       piece = decrypted_message_array[-7..-1]
       @cracked = true if piece.join == "..end.."
     end
-    so_cracked = [decrypted_message, cracked_key]
+    [decrypted_message, cracked_key]
   end
 end

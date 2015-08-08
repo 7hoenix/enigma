@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/pride'
+require "./test/test_helper"
 require_relative '../lib/engine'
 
 class EngineTest < MiniTest::Test
@@ -21,12 +20,12 @@ class EngineTest < MiniTest::Test
     assert_equal expected, engine.character_map
   end
 
-  def test_it_calculates_big_key_values_by_adding_keys_with_offsets
+  def test_it_calculates_total_offset_values_by_adding_keys_with_offsets
     engine = Engine.new
     key = 12345
     offset = 8225
 
-    assert_equal [20, 25, 36, 50], engine.big_key(key, offset)
+    assert_equal [20, 25, 36, 50], engine.total_offset(key, offset)
   end
 
   def test_it_uses_combined_keys_and_split_message_to_encrypt

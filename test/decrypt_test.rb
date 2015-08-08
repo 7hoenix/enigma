@@ -1,12 +1,8 @@
-require 'simplecov'
-SimpleCov.start
-
-require 'minitest/autorun'
-require 'minitest/pride'
-require_relative '../lib/decrypt'
-require_relative '../lib/generate_key'
-require_relative '../lib/calculate_offset'
-require 'pry'
+require './test/test_helper'
+require './lib/decrypt'
+require './lib/generate_key'
+require './lib/calculate_offset'
+require './lib/character_map'
 
 class DecryptTest < MiniTest::Test
 
@@ -21,24 +17,12 @@ class DecryptTest < MiniTest::Test
     assert decrypt.offset, "We got an offset!"
   end
 
-  def test_it_can_write_to_a_document
-    writer = File.open("../lib/decrypted_test.txt", "w")
-
-    writer.write("hello world ..end..\n")
-
-    writer.close
-
-    reader = File.open("../lib/decrypted_test.txt", "r")
-
-    assert_equal "hello world ..end..\n", reader.readline
-  end
-
   def test_it_works
+    skip
     decrypt = Decrypt.new
-    encrypted_file = "../lib/encrypted_test.txt"
-    decrypted_file = "../lib/decrypted_test.txt"
+    encrypted_file = "./data/decrypt_encrypted_test.txt"
+    decrypted_file = "./data/decrypt_decrypted_test.txt"
     key = 12345
-    offset = 8225
     decrypting = true
 
     assert decrypt.key
@@ -46,18 +30,19 @@ class DecryptTest < MiniTest::Test
     assert decrypt.decrypting
 
     reader = File.open(encrypted_file, "r")
-    encrypted_message = reader.readline
+    encrypted_message = reader.readline.chomp
     reader.close
 
     assert_equal "13iw8wtz. aisxbyxx8", encrypted_message
 
+
     engine = Engine.new
-    decrypted_message = engine.calculate(encrypted_message, key, offset, decrypting)
+    decrypted_message = engine.calculate(encrypted_message, key, decrypt.offset, decrypting)
+    binding.pry
     assert_equal "hello world ..end..", decrypted_message
 
     writer = File.open(decrypted_file, "w")
     writer.write(decrypted_message)
     writer.close
   end
-  
 end

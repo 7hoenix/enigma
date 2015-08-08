@@ -1,26 +1,8 @@
-require 'simplecov'
-SimpleCov.start
-
-require 'minitest/autorun'
-require 'minitest/pride'
-require_relative '../lib/encrypt'
-require_relative '../lib/engine'
-require_relative '../lib/calculate_offset'
-require_relative '../lib/generate_key'
-
-# Make a char map array with all of our characters (a-z, 0-9, " ", ., ,)
-# Call our key generator class to generate a key for us.
-# Save that 5 digit key in a variable.
-# Then we need to call our offset class to get the offset (which should just return 4 digits).
-# Save that in a variable.
-
-# In encrypt bring in the file to be encrypted.
-# Split the file into an array of characters.
-# Slice off 4 characters at a time from the file.
-# Send the 4 characters, the key and the offset to an encrypt engine class
-# Take the returned encoded characters and send them off to the file where we want to save them.
-
-# return the key to the output terminal so that we can save it for decrypting.
+require './test/test_helper'
+require './lib/encrypt'
+require './lib/engine'
+require './lib/calculate_offset'
+require './lib/generate_key'
 
 class EncryptTest < MiniTest::Test
 
@@ -43,19 +25,19 @@ class EncryptTest < MiniTest::Test
   end
 
   def test_it_sends_the_characters_from_the_calculate_engine_to_the_encrypted_file
-    writer = File.open("../lib/encrypted_test.txt", "w")
+    writer = File.open("./data/encrypted_test.txt", "w")
 
     writer.write("hello world ..end..")
     writer.close
-    reader = File.open("../lib/encrypted_test.txt", "r")
+    reader = File.open("./data/encrypted_test.txt", "r")
 
     assert_equal "hello world ..end..", reader.readline
   end
 
   def test_it_works
     encrypt = Encrypt.new
-    original_file = "../lib/message_test.txt"
-    encrypted_file = "../lib/encrypted_test.txt"
+    original_file = "./data/message_test.txt"
+    encrypted_file = "./data/encrypted_test.txt"
     key = 12345
     offset = 8225
     decrypting = false
